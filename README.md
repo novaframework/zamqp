@@ -57,7 +57,7 @@ The UUID is more of a correlation id if it want to be tracked in the other end.
 
 ```erlang
 zamqp:publish(Exchange, RoutingKey, Event, UUID)
-'```
+```
 
 ## Body
 
