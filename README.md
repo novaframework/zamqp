@@ -1,4 +1,4 @@
-# Zaark AMQP client
+# AMQP client
 
 ## Config
 
