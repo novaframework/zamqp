@@ -1,0 +1,4 @@
+[{<<"jhn_stdlib">>,
+  {git,"https://github.com/JanHenryNystrom/jhn_stdlib.git",
+       {ref,"6f9c4ba0c65a96b67106b915c722f969fccbe1ba"}},
+  0}].

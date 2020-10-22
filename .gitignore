@@ -1,0 +1,12 @@
+deps
+rebar
+*.beam
+*.app
+logs
+.eunit
+.rebar
+bin
+doc/*.html
+doc/*.png
+doc/*.css
+doc/edoc-info

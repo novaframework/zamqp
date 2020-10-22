@@ -1,0 +1,14 @@
+
+{application, zamqp,
+ [
+  {description, "A client lib for MySQL"},
+  {vsn, "0.1"},
+  {registered, [zamqp_sup]},
+  {applications, [kernel,
+                  stdlib,
+                  crypto,
+                  jhn_stdlib
+                 ]},
+  {mod, {zamqp_app, no_arg}},
+  {env, [{pools, []}]}
+ ]}.
