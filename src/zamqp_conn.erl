@@ -149,6 +149,15 @@ declare(queue, Name, Con) ->
 %%--------------------------------------------------------------------
 declare(Type, Name, Args, Con) when is_atom(Name) ->
     declare(Type, atom_to_binary(Name, utf8), Args, Con);
+declare(exchange, Name, Args, Con) ->
+    Default = #{channel => 1, exchange => Name, type => <<"topic">>},
+    Args0 = maps:merge(Default, Args),
+    Con1 = send_recv(exchange,
+                     declare,
+                     Args0,
+                     ?DECLARE_EXCHANGE_OK,
+                     limit(Con)),
+    {ok, Con1};
 declare(queue, Name, Args, Con) ->
     Con1 = limit(Con),
     send(queue, declare, maps:merge(#{channel => 1, queue => Name}, Args),Con1),

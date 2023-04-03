@@ -27,6 +27,7 @@
                 type,
                 routing_key,
                 exchange,
+                exchange_opts,
                 queue,
                 auto_delete,
                 prefetch_count,
@@ -77,6 +78,7 @@ init({Consumer, Server}) ->
       type := Type} = Consumer,
     self() ! connect,
     PrefetchCount = maps:get(prefetch_count, Consumer, 10),
+    ExchangeOpts = maps:get(exchange_opts, Consumer, #{}),
     {ok,
      #state{module = Module,
             arity = Arity,
@@ -89,6 +91,7 @@ init({Consumer, Server}) ->
             queue = Queue,
             auto_delete = maps:get(auto_delete, Consumer, false),
             exchange = Exchange,
+            exchange_opts = ExchangeOpts,
             prefetch_count = PrefetchCount
            }}.
 
@@ -206,11 +209,12 @@ do_connect(State = #state{user = User, pass = Pass, host = Host, port=Port}) ->
 setup(Con, State) ->
     #state{routing_key = RoutingKey,
            exchange = Exchange,
+           exchange_opts = ExchangeOpts,
            queue = Queue,
            auto_delete = Auto,
            prefetch_count = PrefetchCount} = State,
     {ok, Con1} = zamqp_conn:qos(PrefetchCount, true, Con),
-    {ok, Con2} = zamqp_conn:declare(exchange, Exchange, Con1),
+    {ok, Con2} = zamqp_conn:declare(exchange, Exchange, ExchangeOpts, Con1),
     {ok, Con3} = zamqp_conn:declare(queue, Queue, #{auto_delete => Auto}, Con2),
     {ok, Con4} = bind(Queue, Exchange, RoutingKey, Con3),
     {ok, _, _} = zamqp_conn:consume(Queue, Con4).
